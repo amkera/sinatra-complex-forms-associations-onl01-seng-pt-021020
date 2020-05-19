@@ -36,19 +36,24 @@ class PetsController < ApplicationController
     @pet = Pet.find(params[:id])
     erb :'/pets/edit'
   end
+  #show the page that an owner can edit the pet 
 
   patch '/pets/:id' do
     @pet = Pet.find(params[:id])
     @pet.update(params[:pet])
+    #using active record methods 
 
     #binding.pry
 
     if !params["owner"]["name"].empty?
       @pet.owner = Owner.create(name: params["owner"]["name"])
     end
+    #"recreates" the pet-owner association
 
     @pet.save
+    #saves it to db
 
     redirect to "pets/#{@pet.id}"
   end
+  #actually process the edit request
 end
